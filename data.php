@@ -25,7 +25,7 @@
 		//n2idatakse yhekorra, kui lehele uuesti tulen, siis seda pole enam. hoitakse meeles kuni aken lahti
 		unset($_SESSION["message"]);
 	}
-
+/*
 	$plateError="";
 	$color="";
 	$plate="";
@@ -87,8 +87,11 @@
 		
 ?>
 
-
-
+<center>
+<table style="border:3px solid black">
+	<tr>
+		<th style="border:1px solid red">
+		
 <h1>Data</h1>
 <?=$msg;?>
 <p>Welcome <a href="user.php"><?=$_SESSION["userEmail"];?>!</a>
@@ -98,29 +101,25 @@
 
 
 
-<form method="POST">
 
-<h2>Save car data</h2>
-
-	<input name="plate" placeholder="123 ABC" type="text"> <br><br>
-	<input name="color" type="color"> <br><br>
-	<input type="submit" value="Salvesta">
-	
-</form>
 
 <form method="POST">
 
-<h2>What would you like to borrow ?</h2>
+			<h2>What would you like to borrow ?</h2>
 
-	<input name="wish" placeholder="Enter your wish" type="text"> <br><br>
-	<input name="location" placeholder="In which city you are located at" type="text"> <br><br>
-	<label>Telephone number</label><br>
-	<input name="telephone" type="text"> <br><br>
-	<input type="submit" value="Submit">
-	
+			<input name="wish" placeholder="Enter your wish" type="text"> <br><br>
+			<input name="location" placeholder="Location" type="text"> <br><br>
+			<input name="telephone" placeholder="Telephone number" type="text"> <br><br>
+			<input type="submit" value="Submit" style="background-color: #555; color: #fff; border-radius: #10px"> 
+
 </form>
 
-<h3>Borrowed things</h3>
+
+
+
+
+
+<center><h3>Borrowed things</h3>
 <?php
 	$html = "<table border='1'>";
 	
@@ -145,7 +144,7 @@
 	$html .= "</table>";
 	echo $html;
 
-	//ei soovi seda n2idata, sest see kole ning hetkel puuduvad oskused selle ilustamiseks
+	
 	/*
 	$listHtml = "<br><br>";
 	foreach($laenData as $l){
@@ -157,8 +156,9 @@
 	echo $listHtml
 	*/
 ?>
-
-
+		</th>
+	</tr>
+</table>
 <html>
 <!--<h2>Salvestatud autod</h2>-->
 </html>

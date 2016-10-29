@@ -78,7 +78,7 @@
 		
 	}
 
-	function savecar ($color, $plate){
+	/*function savecar ($color, $plate){
 	
 		$database = "if16_andralla";
 		//yhendus

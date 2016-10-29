@@ -48,7 +48,13 @@
     $interests = getAllInterests();
 	$Userinterests = getAllUserInterests();
 ?>
-<h1><a href="data.php"> < back</a>User page</h1>
+<center>
+<table style="border:3px solid black">
+	<tr>
+		<th style="border:1px solid red">
+
+<h1><a href="data.php" style="font-size:20px" >
+ return</a>User page</h1>
 <?=$msg;?>
 <p>
 	Welcome <?=$_SESSION["userEmail"];?>!
@@ -79,7 +85,7 @@
 	<label>Hobby/interest</label><br>
 	<input name="interest" type="text">
 	
-	<input type="submit" value="Save">
+	<input type="submit" value="Save" style="background-color: #555; color: #fff; border-radius: #10px">
 	
 </form>
 
@@ -107,6 +113,9 @@
     </select>
     	
 	
-	<input type="submit" value="Add">
+	<input type="submit" value="Add" style="background-color: #555; color: #fff; border-radius: #10px">
 	
 </form> 
+		</th>
+	</tr>
+</table>
