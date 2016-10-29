@@ -14,7 +14,7 @@
 			die('Connect Error: ' . $mysqli->connect_error);
 		}
 		
-		$stmt = $mysqli->prepare("INSERT INTO user_sample1 (email, password, name, family) VALUES (?, ?, ?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO user_sample2 (email, password, name, family) VALUES (?, ?, ?, ?)");
 		
 		echo $mysqli->error;
 
@@ -22,7 +22,7 @@
 		
 	
 		if($stmt->execute()) {
-			echo "salvestamine õnnestus";			
+			echo "Saved";			
 		} else {
 		 	echo "ERROR ".$stmt->error;
 		}
@@ -38,7 +38,7 @@
 		
 		$database = "if16_andralla";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
-		$stmt = $mysqli->prepare("SELECT id, email, password, created FROM user_sample1 WHERE email = ?");
+		$stmt = $mysqli->prepare("SELECT id, email, password, created FROM user_sample2 WHERE email = ?");
 		
 		echo $mysqli->error;
 		
@@ -65,13 +65,13 @@
 				header("Location: data.php");
 			
 			}else{
-				$error = "vale parool";
+				$error = "wrong password";
 			}
 			
 						
 		} else {
 			//ei leidnud kasutajat selle meiliga
-			$error = "ei ole sellist emaili";
+			$error = "e-mail does not exist";
 		}
 		
 		return $error;
@@ -93,7 +93,7 @@
 		
 	
 		if($stmt->execute()) {
-			echo "salvestamine õnnestus";			
+			echo "saved";			
 		} else {
 		 	echo "ERROR ".$stmt->error;
 		}
@@ -137,22 +137,22 @@
 		
 	}
 	*/
-	function laenutus ($soov, $asukoht, $telefon){
+	function renting ($wish, $location, $telephone){
 	
 		$database = "if16_andralla";
 		//yhendus
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
 	
 		
-		$stmt = $mysqli->prepare("INSERT INTO laenutus (soov, asukoht, telefon) VALUES (?, ?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO renting (wish, location, telephone) VALUES (?, ?, ?)");
 		
 		echo $mysqli->error;
 
-		$stmt->bind_param("sss", $soov, $asukoht, $telefon);
+		$stmt->bind_param("sss", $wish, $location, $telephone);
 		
 	
 		if($stmt->execute()) {
-			echo "salvestamine õnnestus, laenutuse soov on teele pandud";			
+			echo "Your wish has been forwarded";			
 		} else {
 		 	echo "ERROR ".$stmt->error;
 		}
@@ -162,12 +162,12 @@
 	
 	}
 	
-	function getLaenutus() {
+	function getRenting() {
 		
 		$database = "if16_andralla";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
-		$stmt = $mysqli->prepare("SELECT id, soov, asukoht, telefon FROM laenutus");
-		$stmt->bind_result($id, $soov, $asukoht, $telefon);
+		$stmt = $mysqli->prepare("SELECT id, wish, location, telephone FROM renting");
+		$stmt->bind_result($id, $wish, $location, $telephone);
 		$stmt->execute();
 		echo $mysqli->error;
 		
@@ -179,15 +179,15 @@
 		while ($stmt->fetch()) {
 			
 			//tekitan objekti
-			$laen = new StdClass();
+			$loan = new StdClass();
 			
-			$laen -> id = $id;
-			$laen -> soov =$soov;
-			$laen -> asukoht =$asukoht;
-			$laen -> telefon =$telefon;
+			$loan -> id = $id;
+			$loan -> wish =$wish;
+			$loan -> location =$location;
+			$loan -> telephone =$telephone;
 			//echo $plate."<br>";
 			// iga kord massiivi lisan juurde nr m2rgi
-			array_push($result, $laen);
+			array_push($result, $loan);
 		}
 		
 		$stmt->close();
@@ -197,7 +197,7 @@
 		
 	}
 	
-	function cleanInput(){
+	function cleanInput($input){
 		//eemaldab need inputist
 		$input = trim($input);
 		$input = htmlspecialchars($input);
@@ -207,8 +207,136 @@
 		
 	}
 	
+	function saveInterest ($interest) {
+		
+		$database = "if16_andralla";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
+
+		$stmt = $mysqli->prepare("INSERT INTO interests (interest) VALUES (?)");
 	
+		echo $mysqli->error;
+		
+		$stmt->bind_param("s", $interest);
+		
+		if($stmt->execute()) {
+			echo "salvestamine õnnestus";
+		} else {
+		 	echo "ERROR ".$stmt->error;
+		}
+		
+		$stmt->close();
+		$mysqli->close();
+		
+	}
 	
-	
+	function getAllInterests() {
+		
+		$database = "if16_andralla";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
+		
+		$stmt = $mysqli->prepare("SELECT id, interest FROM interests");
+		echo $mysqli->error;
+		
+		
+		
+		$stmt->bind_result($id, $interest);
+		$stmt->execute();
+		
+		
+		//tekitan massiivi
+		$result = array();
+		
+		// tee seda seni, kuni on rida andmeid
+		// mis vastab select lausele
+		while ($stmt->fetch()) {
+			
+			//tekitan objekti
+			$i = new StdClass();
+			
+			$i->id = $id;
+			$i->interest = $interest;
+		
+			array_push($result, $i);
+		}
+		
+		$stmt->close();
+		$mysqli->close();
+		
+		return $result;
+	}
+	function getAllUserInterests() {
+		
+		$database = "if16_andralla";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
+		
+		$stmt = $mysqli->prepare("SELECT interest FROM interests JOIN user_interests
+		ON interests.id=user_interests.interest_id WHERE user_interests.user_id = ?");
+		echo $mysqli->error;
+		$stmt->bind_param("i", $_SESSION["userId"]);
+		
+		
+		$stmt->bind_result($interest);
+		$stmt->execute();
+		
+		
+		//tekitan massiivi
+		$result = array();
+		
+		// tee seda seni, kuni on rida andmeid
+		// mis vastab select lausele
+		while ($stmt->fetch()) {
+			
+			//tekitan objekti
+			$i = new StdClass();
+			
+		
+			$i->interest = $interest;
+		
+			array_push($result, $i);
+		}
+		
+		$stmt->close();
+		$mysqli->close();
+		
+		return $result;
+	}
+	function saveUserInterest ($interest) {
+		
+		
+		
+		$database = "if16_andralla";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
+		
+		$stmt = $mysqli->prepare("SELECT id FROM user_interests WHERE user_id=? AND interest_id=?");
+		$stmt->bind_param("ii", $_SESSION["userId"], $interest);
+		$stmt->bind_result($id);
+		
+		$stmt->execute();
+		
+		if ($stmt->fetch()){
+			//oli olemas juba selline rida
+			echo "juba olemas";
+			//p2rast returne mnidagi edasi ei tehta
+			return;
+		
+		}
+		
+		//kui ei olnud siis sisestan
+		
+		
+		$stmt = $mysqli->prepare("INSERT into user_interests (user_id, interest_id) VALUES (?, ?)");
+		$stmt->bind_param("ii", $_SESSION["userId"], $interest);
+		
+		if($stmt->execute()) {	
+			echo "saved";	
+		} else {
+			echo "ERROR".$stmt->error;
+		}
+		
+		echo $mysqli->error;
+		
+		
+		
+	}
 	
 ?>
