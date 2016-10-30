@@ -175,7 +175,9 @@
 		}
 
 ?>
-
+<center><table style="border:3px solid black">
+			<tr>
+				<th style="border:1px solid red">
 
 <html>
 <head>
@@ -183,9 +185,9 @@
 </head>
 
 <body style="background-color:grey; font-family: verdana">
-	<center><h2>Log in</h2>
+	<h2>Log in</h2>
 	
-	<center><form method="POST"> <!--POST ei kuva paroole ega asi URL'is-->
+	<form method="POST"> <!--POST ei kuva paroole ega asi URL'is-->
 		
 		<p style="color:red;"><?=$error;?></p>
 		
@@ -226,3 +228,7 @@
 	
 </body>
 </html>
+
+		</th>
+	</tr>
+</table>
