@@ -2,6 +2,9 @@
 	
 	require("../../config.php");
 	
+
+	
+	
 	session_start();
 
 	function signUp ($email, $password, $name, $family){
@@ -78,7 +81,7 @@
 		
 	}
 
-	/*function savecar ($color, $plate){
+	function savecar ($color, $plate){
 	
 		$database = "if16_andralla";
 		//yhendus
@@ -103,11 +106,11 @@
 	
 	}
 	
-	/*function getAllCars() {
+	function getAllCars() {
 		
 		$database = "if16_andralla";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $database);
-		$stmt = $mysqli->prepare("SELECT id, plate, color FROM cars_color");
+		$stmt = $mysqli->prepare("SELECT id, plate, color FROM cars_color WHERE deleted IS NULL");
 		$stmt->bind_result($id, $plate, $color);
 		$stmt->execute();
 		echo $mysqli->error;
@@ -136,7 +139,7 @@
 		return $result;
 		
 	}
-	*/
+	
 	function renting ($wish, $location, $telephone){
 	
 		$database = "if16_andralla";

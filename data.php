@@ -25,7 +25,7 @@
 		//n2idatakse yhekorra, kui lehele uuesti tulen, siis seda pole enam. hoitakse meeles kuni aken lahti
 		unset($_SESSION["message"]);
 	}
-/*
+
 	$plateError="";
 	$color="";
 	$plate="";
@@ -44,29 +44,53 @@
 		
 	//saan auto andmed
 	
-	/*$carData = getAllCars();
+	$carData = getAllCars();
 	echo "<pre>";
 	var_dump($carData);	
 	echo "</pre>";
-	*/
+	
 	$wishError="";
-	$locationError="";
+	$LocationError="";
 	$telephoneError="";
 	$wish="";
 	$location="";
 	$telephone="";
 	
-	if(empty($_POST["wish"])){
-			$wishError = "Mida laenutada soovid?";	
-		}
+	if(isset($_POST["wish"])){
+		
+		if(empty($_POST["wish"])){
+			
+			$wishError = "Required field";
+		
+		}else{
+			
+			$wish = $_POST["wish"];
+		}	
+	}
 
-	if(empty($_POST["location"])){
-			$locationError = "What is your location?";			
-		}
+	if(isset($_POST["location"])){
+		
+		if(empty($_POST["location"])){
+			
+			$LocationError = "Required field";
+		
+		}else{
+			
+			$Location = $_POST["location"];
+		}	
+	}
 
-	if(empty($_POST["telephone"])){
-			$telephoneError = "Please add your telephone number";			
-		}
+	if(isset($_POST["telephone"])){
+		
+		if(empty($_POST["telephone"])){
+			
+			$telephoneError = "Required field";
+		
+		}else{
+			
+			$telephone = $_POST["telephone"];
+		}	
+	}
 
 	if ( isset($_POST["wish"]) && 
 		 isset($_POST["location"]) && 
@@ -99,17 +123,22 @@
 	<a href="?logout=1">Log out</a>
 </p> 
 
+<style>
+.error {color: #FF0000;font-size:14px}
+</style>
 
 
 
-
-<form method="POST">
+<form method="post">
 
 			<h2>What would you like to borrow ?</h2>
-
-			<input name="wish" placeholder="Enter your wish" type="text"> <br><br>
-			<input name="location" placeholder="Location" type="text"> <br><br>
-			<input name="telephone" placeholder="Telephone number" type="text"> <br><br>
+			
+			<input name="wish" placeholder="Enter your wish" type="text"><span class="error"><?php echo $wishError;?></span>
+			<br><br>
+			<input name="location" placeholder="Location" type="text"><span class="error"><?php echo $LocationError;?></span>
+			<br><br>		
+			<input name="telephone" placeholder="Telephone number" type="text"><span class="error"><?php echo $telephoneError;?></span>
+			<br><br>
 			<input type="submit" value="Submit" style="background-color: #555; color: #fff; border-radius: #10px"> 
 
 </form>
@@ -156,14 +185,11 @@
 	echo $listHtml
 	*/
 ?>
-		</th>
-	</tr>
-</table>
-<html>
-<!--<h2>Salvestatud autod</h2>-->
+	
+<h2>Salvestatud autod</h2>-
 </html>
 <?php
-	/*
+	
 	$html = "<table>";
 	
 	$html .= "<tr>";
@@ -180,7 +206,9 @@
 			$html .= "<td>".$c->id."</td>";
 			$html .= "<td>".$c->plate."</td>";
 			$html .= "<td>".$c->carcolor."</td>"; // v6i style='background-color:"$c->carcolor."'
-		$html .="</tr>";
+		
+		$html .= "<td><a href='edit.php?id=".$c->id."'>edit.php</a></td>";
+		$html .= "</tr>";
 	}
 
 	$html .= "</table>";
@@ -195,10 +223,13 @@
 	}
 	
 	echo $listHtml
-*/
+
 ?>
 
-
+	</th>
+	</tr>
+</table>
+<html>
 
 
 
