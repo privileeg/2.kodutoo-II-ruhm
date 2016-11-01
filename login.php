@@ -115,13 +115,13 @@
 		// salvestame ab'i
 		echo "Saving... <br>";
 		
-		echo "email: ".$signupEmail."<br>";
-		echo "first name: ".$signupName."<br>";
-		echo "family name: ".$signupFamily."<br>";
+		//echo "email: ".$signupEmail."<br>";
+		//echo "first name: ".$signupName."<br>";
+		//echo "family name: ".$signupFamily."<br>";
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
-		echo "password hashed: ".$password."<br>";
+		//echo "password hashed: ".$password."<br>";
 		
 		
 		//echo $serverUsername;
@@ -191,7 +191,7 @@
 		
 		<p style="color:red;"><?=$error;?></p>
 		
-		<input name="loginEmail" placeholder="E-mail" type="text"><br><br>
+		<input name="loginEmail" placeholder="E-mail" type="text" value="<?=$loginEmail;?>"><br><br>
 		
 		<input name="loginPassword" placeholder="Password" type="password"><br><br>
 
